@@ -1,8 +1,8 @@
 import { useState, useEffect} from "react";
 //排除等于value = 0的情况 却被删除了
-export const isFalsy = (value) => value === 0 ? false: !value //transfer value to boolean
+export const isFalsy = (value: unknown) => (value === 0 ? false: !value); //transfer value to boolean
 
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
     //Object.assign({}, object)
     console.log("object " + JSON.stringify(object))
     const result = {...object}
@@ -10,11 +10,14 @@ export const cleanObject = (object) => {
     /*为空的时候{"name":"","personId":"2"}  value = "" =>return true  删除   
     如果value===0 也就是{"name":"0","personId":"2"}=>false */
 
+    //不知道怎么弄 @ts-ignore
     Object.keys(result).forEach(key => {
-        const value = result[key]
+        // @ts-ignore
+        const value = result[key];
         //The delete : remove a property from an object    delete {"name":""}
         if(isFalsy(value)){
-            delete result[key]
+            // @ts-ignore
+            delete result[key];
         }
     })
     console.log("result "+JSON.stringify(result))
@@ -22,7 +25,7 @@ export const cleanObject = (object) => {
 }
 
 //define a hook
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
     }, [])
@@ -40,8 +43,9 @@ export const useMount = (callback) => {
         }, delay);
     }
 } */
-//将debounce变成 自定义hook
-export const useDebounce = (value, delay) => {
+//将debounce变成 自定义hook   delay?:number 可以不传or传一个number
+//后面用泛型来规范类型 <V>
+export const useDebounce = <V>(value: V, delay?: number) => {
     const [debounceValue, setDebounceValue] = useState(value)
     useEffect(() => { 
         //value change => set a timer  

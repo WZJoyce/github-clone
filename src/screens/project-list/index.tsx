@@ -13,6 +13,11 @@ export const ProjectListScreen = ()=>{
         personId: ''
     })
 
+    interface T {
+        name: string,
+        personId: string
+    }
+
     const [users, setUsers] = useState([
 
     ])
