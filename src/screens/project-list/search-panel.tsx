@@ -1,5 +1,9 @@
+/* @jsxImportSource @emotion/react */
+import { jsx } from "@emotion/react"
 import React from "react";
 import { useEffect, useState } from "react"
+import { Select, Input, Form} from 'antd'
+
 
 export interface User {
     id: string;
@@ -23,23 +27,25 @@ interface SearchPanelProps{
 
 export const SearchPanel = ({param, setParam, users}:SearchPanelProps) => {
 
-    return <form action="">
-        <div>
+    return <Form css={{ marginBottom: "2rem" }} layout={"inline"}>
+        <Form.Item>
             {/* setParam(Object.assign({}, param, {name:evt.target.value}))*/}
-            <input type="text" value={param.name} onChange = {evt => setParam({
+            <Input placeholder={'Project'} type="text" value={param.name} onChange = {evt => setParam({
                 ...param,
                 name:evt.target.value
             })}/>
-            <select value={param.personId} onChange = {evt => setParam({
+          </Form.Item>
+          <Form.Item>
+            <Select value={param.personId} onChange = {value => setParam({
                 ...param,
-                personId: evt.target.value
+                personId: value
             })}>
-            <option value={''}>Manager</option>
+            <Select.Option value={''}>Manager</Select.Option>
             {
-                users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)
+                users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
             }
-            </select>
-        </div>
-
-    </form>
+            </Select>
+        </Form.Item>
+       
+    </Form>
 }

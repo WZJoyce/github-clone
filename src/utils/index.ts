@@ -2,21 +2,21 @@ import { useState, useEffect} from "react";
 //排除等于value = 0的情况 却被删除了
 export const isFalsy = (value: unknown) => (value === 0 ? false: !value); //transfer value to boolean
 
-export const cleanObject = (object: object) => {
+export const isVoid = (value:unknown) => value === undefined || value === null || value === ''
+ //(object: object) 因为这个object 可能是function  是其他的  不一定是key:value
+ //{[key: string]: unknown} 可以清晰的作为key:value 这个键值对
+export const cleanObject = (object: {[key: string]: unknown}) => {
     //Object.assign({}, object)
     console.log("object " + JSON.stringify(object))
-    const result = {...object}
+    const result = {...object};
     //Object.keys(result) => name, personId
     /*为空的时候{"name":"","personId":"2"}  value = "" =>return true  删除   
     如果value===0 也就是{"name":"0","personId":"2"}=>false */
 
-    //不知道怎么弄 @ts-ignore
     Object.keys(result).forEach(key => {
-        // @ts-ignore
         const value = result[key];
         //The delete : remove a property from an object    delete {"name":""}
-        if(isFalsy(value)){
-            // @ts-ignore
+        if(isVoid(value)){
             delete result[key];
         }
     })
@@ -28,6 +28,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 }
 //fetch after finishing the input  而不是每次加入字母都会fetch

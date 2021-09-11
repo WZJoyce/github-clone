@@ -1,8 +1,16 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { AuthProvider } from "context/auth-context";
+import { DevTools } from "jira-dev-tool";
+import { QueryClient, QueryClientProvider } from "react-query";
+
 
 export const AppProviders = ({ children }: { children: ReactNode }) => {
-    return <AuthProvider>
+    return (
+      <QueryClientProvider client={new QueryClient()}>      
+    <AuthProvider>
         { children }
         </AuthProvider>
+        </QueryClientProvider> 
+      
+    )
 }
