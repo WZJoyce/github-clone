@@ -7,6 +7,7 @@ export interface User {
     email: string;
     title: string;
     organization: string;
+    token:string;
 }
 
 
@@ -33,7 +34,7 @@ export const SearchPanel = ({param, setParam, users}:SearchPanelProps) => {
                 ...param,
                 personId: evt.target.value
             })}>
-            <option value={''}>Leader</option>
+            <option value={''}>Manager</option>
             {
                 users.map(user => <option key={user.id} value={user.id}>{user.name}</option>)
             }

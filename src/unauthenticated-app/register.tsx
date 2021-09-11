@@ -1,19 +1,11 @@
 import React, {FormEvent} from 'react'
+import { useAuth } from 'context/auth-context'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
 interface Base {
     id: number
 }
-
-/* interface Person extends Base{
-    name: string
-}
-
-const p: Person = {
-    name: '123',
-    id: 123
-} */
 
 interface Advance extends Base{
     name: string
@@ -27,27 +19,14 @@ const a:Advance = {id:1, name:'jack'}
 
 test(a)
 
-export const LoginScreen = () => {
-
-    const login = (param: {username:string, password:string}) => {
-        fetch(`${apiUrl}/login`, 
-        {method: 'POST', 
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(param)
-    }).then(async response => {
-            if(response.ok){
-                
-            }
-        })
-    }
+export const RegisterScreen = () => {
+    const {register, user} = useAuth()
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const username = (event.currentTarget.elements[0] as HTMLInputElement).value  
         const password = (event.currentTarget.elements[1] as HTMLInputElement).value
-        login({username, password})
+        register({username, password})
     }
     return <form onSubmit={handleSubmit}>
         <div>
@@ -58,6 +37,6 @@ export const LoginScreen = () => {
             <label htmlFor="password">Password</label>
             <input type="password" id={'password'}></input>
         </div>
-        <button type={"submit"}>Login</button>
+        <button type={"submit"}>Register</button>
     </form>
 }
