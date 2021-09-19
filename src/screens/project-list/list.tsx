@@ -1,10 +1,10 @@
 import React from "react"
 import {User} from "screens/project-list/search-panel"
-import { Table } from "antd"
+import { Table, TableProps  } from "antd"
 import dayjs from "dayjs";
 
 //interface 创建自己的类
-interface Project {
+export interface Project {
     id: string;
     name: string;
     personId: string;
@@ -14,13 +14,17 @@ interface Project {
 }
 
 
-interface ListProps {
-   list: Project[],
-   users: User[] 
+interface ListProps extends TableProps<Project> {
+   users: User[];
 }
 
-export const List = ({list, users}: ListProps) => {
-   return <Table pagination={false} columns={[{
+export const List = ({ users, ...props}: ListProps) => {
+    const obj = {name:'jack', age:8}
+   return <Table
+       {...obj} 
+       rowKey={"id"}
+       pagination={false} 
+       columns={[{
        title:'Role',
        dataIndex:'name',//在project里面的某个属性
        sorter:(a, b) => a.name.localeCompare(b.name)
@@ -46,5 +50,7 @@ export const List = ({list, users}: ListProps) => {
         }
     }
 
-   ]} dataSource={list}/>
+   ]}
+   {...props}
+   />
 }
